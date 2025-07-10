@@ -10,7 +10,7 @@ public class Game {
         int heroMaxHp = Integer.parseInt(scanner.nextLine());
         System.out.print("Введите имя монстра: ");
         String monsterName = scanner.nextLine();
-        System.out.print("Введите количество максимального здоровья героя: ");
+        System.out.print("Введите количество максимального здоровья монстра: ");
         int monsterMaxHp = Integer.parseInt(scanner.nextLine());
 
         Hero hero = new Hero(heroName, heroMaxHp);
@@ -19,10 +19,14 @@ public class Game {
         System.out.println("\nБитва начинается! " + hero.getName() + " против " + monster.getName());
 
         while (hero.isAlive() && monster.isAlive()) {
-            hero.chooseAction(monster, scanner);
+
+            Character.Action heroAction = hero.chooseAction(monster, scanner);
+            hero.takeAction(heroAction, monster);
             if (!monster.isAlive()) break;
 
-            monster.takeAction(hero);
+            Character.Action monsterAction = monster.chooseAction(hero, scanner);
+            monster.takeAction(monsterAction, hero);
+            if (!hero.isAlive()) break;
         }
 
         if (hero.isAlive()) {

@@ -3,15 +3,22 @@ public class Monster extends Character {
         super(name, maxHP);
     }
 
-    public void takeAction(Character enemy) {
-        double roll = Math.random();
 
-        if (roll < 0.6) {
-            attack(enemy);
-        } else if (roll < 0.85) {
-            heal();
+    public Action chooseAction(Character enemy, java.util.Scanner scanner) {
+        double roll = Math.random();
+        double rollAttack = 0.6;
+        double rollHeal = 0.85;
+
+        if (roll < rollAttack) {
+            return Action.ATTACK;
+        } else if (roll < rollHeal) {
+            return Action.HEAL;
         } else {
-            skip(enemy);
+            return Action.SKIP;
         }
+    }
+
+    public void takeAction(Action action, Character enemy) {
+        super.takeAction(action, enemy);
     }
 }

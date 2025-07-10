@@ -6,14 +6,28 @@ public abstract class Character {
     protected int attackPower;
     protected int heal;
 
+    public enum Action {
+        ATTACK,
+        HEAL,
+        SKIP
+
+    }
+
+    public abstract Action chooseAction(Character enemy, java.util.Scanner scanner);
+
+    public void takeAction(Action action, Character enemy) {
+        switch (action) {
+            case ATTACK -> attack(enemy);
+            case HEAL -> heal();
+            case SKIP -> skip(enemy);
+        }
+    }
+
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public int getHp() {
         return hp;
@@ -29,14 +43,10 @@ public abstract class Character {
         return maxHP;
     }
 
-    public void setMaxHP(int maxHP) {
-        this.maxHP = maxHP;
-    }
-
 
     public Character(String name, int maxHP) {
-        setName(name);
-        setMaxHP(maxHP);
+        this.name = name;
+        this.maxHP = maxHP;
         this.hp = maxHP;
         this.attackPower = maxHP / 5;
         this.heal = Math.max(1, maxHP / 10);
